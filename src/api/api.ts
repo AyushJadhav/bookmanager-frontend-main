@@ -48,20 +48,26 @@ export const createBook = async (book: Omit<Book, 'id'>): Promise<Book> => {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            query: `mutation($title: String!, $author: String!, $publishedDate: String!) {
-        createBook(title: $title, author: $author, publishedDate: $publishedDate) {
+            query: `mutation($book: BookInput!) {
+        createBook(book: $book) {
           id
           title
           author
           publishedDate
         }
       }`,
-            variables: book,
+            variables: {book},
         }),
     });
 
-    const {data} = await response.json();
-    return data.createBook;
+    const resJson = await response.json();
+    console.log('createBook response:', resJson); // 👈 log this
+
+    if (resJson.errors) {
+        throw new Error(resJson.errors.map((e: any) => e.message).join(', '));
+    }
+
+    return resJson.data.createBook;
 };
 
 export const deleteBook = async (id: number): Promise<number> => {

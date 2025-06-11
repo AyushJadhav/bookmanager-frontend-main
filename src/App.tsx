@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {setBooks} from './features/bookReducer';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setBooks } from './features/bookReducer';
 import BooksList from './components/BooksList';
 import AddBook from './components/AddBook';
-import {fetchBooks} from './api/api';
+import { fetchBooks } from './api/api';
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
@@ -18,13 +18,14 @@ const App: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <div>
-            <h1>Book Management</h1>
-            <AddBook/>
-            <BooksList/>
+        <div className="min-h-screen bg-gray-100 py-8">
+            <div className="container mx-auto px-4">
+                <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Book Management</h1>
+                <AddBook />
+                <BooksList />
+            </div>
         </div>
     );
 };
 
 export default App;
-
