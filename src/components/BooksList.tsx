@@ -1,8 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
+import { Book } from '../features/bookReducer';
 
-const BooksList = () => {
+interface BookListProps {
+    onEdit: (book: Book) => void;
+    onDelete: (id: number) => void;
+}
+
+const BooksList: React.FC<BookListProps> = ({ onEdit, onDelete }) => {
     const books = useSelector((state: RootState) => state.books.books);
 
     return (
@@ -19,6 +25,20 @@ const BooksList = () => {
                         <p className="text-sm text-gray-500">
                             Published: {new Date(book.publishedDate).toLocaleDateString()}
                         </p>
+                        <div className="mt-2 flex space-x-4">
+                            <button
+                                onClick={() => onEdit(book)}
+                                className="text-blue-600 hover:underline"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                onClick={() => onDelete(book.id)}
+                                className="text-red-600 hover:underline"
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </li>
                 ))}
             </ul>

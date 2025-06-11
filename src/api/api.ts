@@ -70,20 +70,54 @@ export const createBook = async (book: Omit<Book, 'id'>): Promise<Book> => {
     return resJson.data.createBook;
 };
 
-export const deleteBook = async (id: number): Promise<number> => {
-    const response = await fetch(GRAPHQL_URL, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            query: `mutation($id: Int!) {
-        deleteBook(id: $id) {
-          id
+export const deleteBook = async (id: string | number): Promise<boolean> => {
+  const response = await fetch(GRAPHQL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        mutation DeleteBook($id: ID!) {
+          deleteBook(id: $id)
         }
-      }`,
-            variables: {id: id},
-        }),
-    });
+      `,
+      variables: { id: id.toString() },  // always convert to string here
+    }),
+  });
 
-    const {data} = await response.json();
-    return data.deleteBook;
+  const json = await response.json();
+
+  if (json.errors) {
+    throw new Error(json.errors.map((e: any) => e.message).join(', '));
+  }
+
+  return json.data.deleteBook;
+};
+
+
+export const updateBook = async (id: string, book: Omit<Book, 'id'>): Promise<Book> => {
+  const response = await fetch(GRAPHQL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        mutation UpdateBook($id: ID!, $book: BookInput!) {
+          updateBook(id: $id, book: $book) {
+            id
+            title
+            author
+            publishedDate
+          }
+        }
+      `,
+      variables: { id, book },
+    }),
+  });
+
+  const resJson = await response.json();
+
+  if (resJson.errors) {
+    throw new Error(resJson.errors.map((e: any) => e.message).join(', '));
+  }
+
+  return resJson.data.updateBook;
 };
