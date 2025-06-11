@@ -17,15 +17,21 @@ const BooksList: React.FC<BookListProps> = ({ onEdit, onDelete }) => {
   const [filterDate, setFilterDate] = useState<Date | null>(null);
 
   const handleFilter = async () => {
-    if (!filterDate) return;
-    try {
-      const formattedDate = filterDate.toISOString().split('T')[0];
-      const filteredBooks = await fetchBooksByDate(formattedDate);
-      dispatch(setBooks(filteredBooks));
-    } catch (err) {
-      console.error('Failed to fetch books by date:', err);
-    }
-  };
+  if (!filterDate) return;
+  try {
+    // Convert date to local yyyy-MM-dd format without time zone shifts
+    const localDate = new Date(
+      filterDate.getTime() - filterDate.getTimezoneOffset() * 60000
+    )
+      .toISOString()
+      .split('T')[0];
+
+    const filteredBooks = await fetchBooksByDate(localDate);
+    dispatch(setBooks(filteredBooks));
+  } catch (err) {
+    console.error('Failed to fetch books by date:', err);
+  }
+};
     return (
     <div className="container my-5">
       <div className="card shadow mb-4">
