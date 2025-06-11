@@ -17,7 +17,6 @@ const AddBook: React.FC<AddBookProps> = ({ selectedBook, onBookSaved }) => {
     const [author, setAuthor] = useState('');
     const [publishedDate, setPublishedDate] = useState<Date | null>(null);
 
-    // Prefill form if editing
     useEffect(() => {
         if (selectedBook) {
             setTitle(selectedBook.title);
@@ -41,13 +40,11 @@ const AddBook: React.FC<AddBookProps> = ({ selectedBook, onBookSaved }) => {
 
         try {
             if (selectedBook) {
-            await updateBook(selectedBook.id.toString(), bookInput); // convert id to string here
-        } else {
-            const newBook = await createBook(bookInput);
-            dispatch(addBook(newBook)); // add to Redux only when creating
-        }
-
-            // Reset form and notify parent
+                await updateBook(selectedBook.id.toString(), bookInput);
+            } else {
+                const newBook = await createBook(bookInput);
+                dispatch(addBook(newBook));
+            }
             onBookSaved();
         } catch (error) {
             console.error('Error saving book:', error);
@@ -55,41 +52,46 @@ const AddBook: React.FC<AddBookProps> = ({ selectedBook, onBookSaved }) => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto my-8">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">
-                {selectedBook ? 'Edit Book' : 'Add Book'}
-            </h2>
-            <div className="space-y-4">
-                <input
-                    type="text"
-                    placeholder="Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                    type="text"
-                    placeholder="Author"
-                    value={author}
-                    onChange={(e) => setAuthor(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <DatePicker
-                    selected={publishedDate}
-                    onChange={(date) => setPublishedDate(date)}
-                    placeholderText="Published Date"
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    dateFormat="yyyy-MM-dd"
-                    showYearDropdown
-                    dropdownMode="select"
-                />
+        <div className="bg-light p-4 rounded shadow-sm mx-auto my-4" style={{ maxWidth: '400px' }}>
+            <h2 className="mb-4 text-center">{selectedBook ? 'Edit Book' : 'Add Book'}</h2>
+            <form>
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        placeholder="Title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        placeholder="Author"
+                        value={author}
+                        onChange={(e) => setAuthor(e.target.value)}
+                        className="form-control"
+                    />
+                </div>
+                <div className="mb-3">
+                    <DatePicker
+                        selected={publishedDate}
+                        onChange={(date) => setPublishedDate(date)}
+                        placeholderText="Published Date"
+                        className="form-control"
+                        dateFormat="yyyy-MM-dd"
+                        showYearDropdown
+                        dropdownMode="select"
+                    />
+                </div>
                 <button
+                    type="button"
                     onClick={handleSubmit}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+                    className="btn btn-primary w-100"
                 >
                     {selectedBook ? 'Update Book' : 'Add Book'}
                 </button>
-            </div>
+            </form>
         </div>
     );
 };

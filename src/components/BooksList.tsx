@@ -12,36 +12,41 @@ const BooksList: React.FC<BookListProps> = ({ onEdit, onDelete }) => {
     const books = useSelector((state: RootState) => state.books.books);
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto my-8">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Books</h2>
-            <ul className="space-y-2">
-                {books.map(book => (
-                    <li 
-                        key={book.id}
-                        className="p-4 border border-gray-200 rounded hover:bg-gray-50 transition duration-200"
-                    >
-                        <h3 className="font-semibold text-lg">{book.title}</h3>
-                        <p className="text-gray-600">by {book.author}</p>
-                        <p className="text-sm text-gray-500">
-                            Published: {new Date(book.publishedDate).toLocaleDateString()}
-                        </p>
-                        <div className="mt-2 flex space-x-4">
-                            <button
-                                onClick={() => onEdit(book)}
-                                className="text-blue-600 hover:underline"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                onClick={() => onDelete(book.id)}
-                                className="text-red-600 hover:underline"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+        <div className="container my-5">
+            <div className="card shadow">
+                <div className="card-body">
+                    <h2 className="card-title mb-4">Books</h2>
+                    <ul className="list-group list-group-flush">
+                        {books.map(book => (
+                            <li key={book.id} className="list-group-item">
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 className="mb-1">{book.title}</h5>
+                                        <p className="mb-1 text-muted">by {book.author}</p>
+                                        <small className="text-secondary">
+                                            Published: {new Date(book.publishedDate).toLocaleDateString()}
+                                        </small>
+                                    </div>
+                                    <div>
+                                        <button
+                                            onClick={() => onEdit(book)}
+                                            className="btn btn-sm btn-outline-primary me-2"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() => onDelete(book.id)}
+                                            className="btn btn-sm btn-outline-danger"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };

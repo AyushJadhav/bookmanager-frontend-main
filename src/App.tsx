@@ -5,6 +5,7 @@ import BooksList from './components/BooksList';
 import AddBook from './components/AddBook';
 import { fetchBooks, deleteBook } from './api/api';
 import { Book } from './features/bookReducer';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
     const dispatch = useDispatch();
