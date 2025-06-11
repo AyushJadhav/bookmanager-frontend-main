@@ -121,3 +121,27 @@ export const updateBook = async (id: string, book: Omit<Book, 'id'>): Promise<Bo
 
   return resJson.data.updateBook;
 };
+
+export const fetchBooksByDate = async (date: string): Promise<Book[]> => {
+  const response = await fetch(GRAPHQL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        query($publishedDate: String!) {
+          findBooksByDate(publishedDate: $publishedDate) {
+            id
+            title
+            author
+            publishedDate
+          }
+        }
+      `,
+      variables: { publishedDate: date },
+    }),
+  });
+
+  const { data, errors } = await response.json();
+  if (errors) throw new Error(errors.map((e: any) => e.message).join(', '));
+  return data.findBooksByDate;
+};
