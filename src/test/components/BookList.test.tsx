@@ -14,13 +14,13 @@ describe('BooksList', () => {
                 books: booksReducer,
             },
             preloadedState: {
-                books: {
-                    books: [
-                        { id: 1, title: 'Book One', author: 'Author One', publishedDate: '2021-01-01' },
-                        { id: 2, title: 'Book Two', author: 'Author Two', publishedDate: '2022-02-02' },
-                    ],
-                },
-            },
+  books: {
+    books: [
+      { id: 1, title: 'Book One', author: { id: 101, name: 'Author One' }, publishedDate: '2021-01-01' },
+      { id: 2, title: 'Book Two', author: { id: 102, name: 'Author Two' }, publishedDate: '2022-02-02' },
+    ],
+  },
+}
         });
     });
 

@@ -61,7 +61,7 @@ const BooksList: React.FC<BookListProps> = ({ onEdit, onDelete }) => {
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h5 className="mb-1">{book.title}</h5>
-                    <p className="mb-1 text-muted">by {book.author}</p>
+                    <p className="mb-1 text-muted">by {book.author.name}</p>
                     <small className="text-secondary">
                       Published: {new Date(book.publishedDate).toLocaleDateString()}
                     </small>

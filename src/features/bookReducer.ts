@@ -1,10 +1,21 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
+export interface Author {
+  id: number;
+  name: string;
+}
+
 export interface Book {
-    id: number;
-    title: string;
-    author: string;
-    publishedDate: string;
+  id: number;
+  title: string;
+  author: Author;
+  publishedDate: string;
+}
+
+export interface BookInput {
+  title: string;
+  author: string; 
+  publishedDate: string;
 }
 
 interface BookState {
