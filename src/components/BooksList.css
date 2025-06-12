@@ -1,0 +1,67 @@
+/* BooksList.css */
+
+.books-bg {
+  position: relative;
+  min-height: 100vh;
+  padding: 2rem;
+
+  background-image: url('./bg2.jpg');
+  background-size: cover;             /* fills screen */
+  background-position: center center; /* center image */
+  background-repeat: no-repeat;
+  background-attachment: fixed;       /* parallax scroll */
+
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: overlay;
+}
+
+
+
+
+/* Ensure content is above overlay */
+.books-bg > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glassmorphism cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1); /* slightly darker glass */
+  border-radius: 1rem;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  color: #f5f5f5; /* light text color */
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* DatePicker dropdown fix */
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
+
+
+.list-group-item h5 {
+  color: #ffffff;
+}
+
+.list-group-item p {
+   color: #ffffff;
+}
+
+.list-group-item small {
+   color: #ffffff;
+}
+
+.btn-outline-primary {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.btn-outline-danger {
+  color: #ffdddd;
+  border-color: #ffdddd;
+}
